@@ -6,6 +6,16 @@
 .App > div {
   margin-right: 50px;
 }
-.activeFilter {
-  background-color: aquamarine;
+
+.active-filter {
+  background-color: cadetblue;
+  color: white;
+}
+.error {
+  border: 2px solid red;
+  outline: none;
+}
+
+.notCompleted {
+  font-weight: 700;
 }
