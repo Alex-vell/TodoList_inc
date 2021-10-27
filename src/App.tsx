@@ -38,6 +38,7 @@ function App() {
         ]
     });
 
+
     function removeTask(id: string, todolistId: string) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
@@ -83,7 +84,7 @@ function App() {
         }
     }
 
-    function changeTodolistFilter(value: FilterValuesType, todolistId: string) {
+    function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId);
         if (todolist) {
             todolist.filter = value;
@@ -158,7 +159,7 @@ function App() {
                                         title={tl.title}
                                         tasks={tasksForTodolist}
                                         removeTask={removeTask}
-                                        changeFilter={changeTodolistFilter}
+                                        changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
                                         filter={tl.filter}
