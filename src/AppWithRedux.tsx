@@ -101,7 +101,7 @@ function AppWithRedux() {
                                         title={tl.title}
                                         tasks={tasks[tl.id]}
                                         removeTask={removeTask}
-                                        changeFilter={changeFilter}
+                                       changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeStatus}
                                         filter={tl.filter}
