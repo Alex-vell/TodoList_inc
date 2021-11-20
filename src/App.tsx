@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react'
 import './App.css';
 import { Todolist } from './Todolist';
-import { AddItemForm } from './AddItemForm';
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {
     changeTodolistFilterAC,
     createTodolistTC,
@@ -18,6 +18,7 @@ import { AppRootStateType } from './state/store';
 import {TaskStatuses, TaskType, todolistsAPI} from './api/todolists-api'
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
+
 
 
 export type TasksStateType = {
