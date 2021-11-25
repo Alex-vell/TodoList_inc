@@ -1,8 +1,7 @@
-import {TasksStateType} from '../App';
 import {AddTodolistActionType, RemoveTodolistActionType, SetTodosActionType} from './todolists-reducer';
-import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../api/todolists-api'
+import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from "redux";
-import {AppRootStateType} from "./store";
+import {AppRootStateType} from "../../app/store";
 
 const initialState: TasksStateType = {
     /*"todolistId1": [
@@ -211,3 +210,8 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodosActionType
+
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+
