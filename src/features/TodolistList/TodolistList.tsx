@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 import {
     changeTodolistFilterAC,
-    createTodolistTC,
+    addTodolistTC,
     FilterValuesType,
     getTodolistsThunk,
     removeTodolistTC,
@@ -11,7 +11,7 @@ import {
     updateTodolistTC
 } from "../TodolistsList/todolists-reducer";
 import {
-    createTaskTC,
+    addTaskTC,
     removeTaskTC,
     TasksStateType,
     updateTaskStatusTC,
@@ -43,7 +43,7 @@ export const TodolistList: React.FC<TodolistListPropsType> = (props) => {
     const addTask = useCallback(function (title: string, todolistId: string) {
         // const action = addTaskAC(title, todolistId);
         // dispatch(action);
-        dispatch(createTaskTC(title, todolistId))
+        dispatch(addTaskTC(title, todolistId))
     }, []);
 
     const changeTaskStatus = useCallback(function (id: string, status: TaskStatuses, todolistId: string) {
@@ -78,7 +78,7 @@ export const TodolistList: React.FC<TodolistListPropsType> = (props) => {
     const addTodolist = useCallback((title: string) => {
         // const action = addTodolistAC(title);
         // dispatch(action);
-        dispatch(createTodolistTC(title))
+        dispatch(addTodolistTC(title))
     }, [dispatch]);
 
     return (
@@ -97,11 +97,12 @@ export const TodolistList: React.FC<TodolistListPropsType> = (props) => {
                                     id={tl.id}
                                     title={tl.title}
                                     tasks={allTodolistTasks}
+                                    filter={tl.filter}
+                                    entityStatus={tl.entityStatus}
                                     removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={addTask}
                                     changeTaskStatus={changeTaskStatus}
-                                    filter={tl.filter}
                                     removeTodolist={removeTodolist}
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}

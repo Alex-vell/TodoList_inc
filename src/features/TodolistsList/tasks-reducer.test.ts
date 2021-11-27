@@ -47,9 +47,9 @@ test('correct task should be added to correct array', () => {
         title: 'juce',
         status: 0,
         priority: 1,
-        startDate: 'string',
+        startDate: '',
         deadline: 'string',
-        id: '1',
+        id: 'todolistId2',
         todoListId: '1',
         order: 1,
         addedDate: 'string'
