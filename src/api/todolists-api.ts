@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': '724c553c-960a-4a5c-aa67-c9d1bcd4ed73'
+        'API-KEY': '4fa02be0-fc45-4f63-a405-9880e98f8e95'
     }
 })
 
@@ -36,7 +36,39 @@ export const todolistsAPI = {
     }
 }
 
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>('auth/login', data);
+    },
+    logout() {
+        return instance.delete<ResponseType>('auth/login');
+    },
+    me() {
+        return instance.get<ResponseType<AuthMeType>>('auth/me');
+    }
+}
+
+
+
+
+
+
+
 // types
+
+type AuthMeType = {
+    id: string
+    email: string
+    login: string
+}
+
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?: string
+}
+
 export type TodolistType = {
     id: string
     title: string

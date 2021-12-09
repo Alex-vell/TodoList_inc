@@ -2,7 +2,7 @@ import {AddTodolistActionType, RemoveTodolistActionType, SetTodosActionType} fro
 import {TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from "redux";
 import {AppRootStateType} from "../../app/store";
-import {setAppErrorAC, SetAppErrorACActionTypes, setAppStatusAC} from "../../app/app-reducer";
+import {SetAppErrorActionType, setAppStatusAC} from "../../app/app-reducer";
 import {AxiosError} from "axios";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
@@ -226,7 +226,7 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodosActionType
-    | SetAppErrorACActionTypes
+    | SetAppErrorActionType
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>

@@ -21,17 +21,26 @@ import {TaskStatuses} from "../../api/todolists-api";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "../TodolistsList/Todolist/Todolist";
+import {Navigate} from "react-router-dom";
 
-type TodolistListPropsType = {}
-export const TodolistList: React.FC<TodolistListPropsType> = (props) => {
+
+type TodolistListPropsType = {
+    demo?: boolean
+}
+
+export const TodolistList: React.FC<TodolistListPropsType> = ({demo = false}) => {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch();
-
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getTodolistsThunk)
+        if (demo || !isLoggedIn) {
+            return;
+        }
+        const thunk = getTodolistsThunk()
+        dispatch(thunk)
     }, [])
 
     const removeTask = useCallback(function (id: string, todolistId: string) {
@@ -80,6 +89,10 @@ export const TodolistList: React.FC<TodolistListPropsType> = (props) => {
         // dispatch(action);
         dispatch(addTodolistTC(title))
     }, [dispatch]);
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return (
         <>
