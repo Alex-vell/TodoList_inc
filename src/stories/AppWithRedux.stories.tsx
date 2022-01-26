@@ -17,6 +17,9 @@ export default {
 const Template: ComponentStory<typeof App> = (args) => <App/>;
 
 export const AppWithReduxStory = Template.bind({});
+/*export const AppBaseExample = (props: any) => {
+    return (<App demo={true}/>)
+}*/
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 AppWithReduxStory.args = {};
 

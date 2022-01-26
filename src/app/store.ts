@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
 })
 // export const store = createStore(rootReducer, applyMiddleware(thunk));
+export type RootReducerType = typeof rootReducer
 
 export const store = configureStore({
     reducer: rootReducer,

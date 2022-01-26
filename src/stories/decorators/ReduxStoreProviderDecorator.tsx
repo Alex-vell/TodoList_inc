@@ -1,6 +1,6 @@
 import React from "react";
 import {Provider} from "react-redux";
-import {AppRootStateType} from "../../app/store";
+import {AppRootStateType, RootReducerType} from "../../app/store";
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {tasksReducer} from "../../features/TodolistsList/tasks-reducer";
 import {todolistsReducer} from "../../features/TodolistsList/todolists-reducer";
@@ -9,9 +9,11 @@ import {v1} from "uuid";
 import thunk from "redux-thunk";
 import {appReducer} from "../../app/app-reducer";
 import {authReducer} from "../../features/Login/auth-reducer";
+import {configureStore} from "@reduxjs/toolkit";
+import {HashRouter} from "react-router-dom";
 
 
-const rootReducer = combineReducers({
+const rootReducer:RootReducerType = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
     app: appReducer,
@@ -65,9 +67,17 @@ const initialGlobalState: AppRootStateType = {
         isLoggedIn: false
     }
 };
-export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
-
+// export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
+export const storyBookStore = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialGlobalState,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
+})
 
 export const ReduxStoreProviderDecorator = (storyFn: () => React.ReactNode) => <Provider store={storyBookStore}>
     {storyFn()}
 </Provider>
+
+export const BrowserRouterDecorator = (storyFn: any) => (
+    <HashRouter>{storyFn()}</HashRouter>
+)
