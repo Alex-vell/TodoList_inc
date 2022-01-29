@@ -3,25 +3,43 @@ import { EditableSpan } from '../../../../components/EditableSpan/EditableSpan'
 import { TaskStatuses, TaskType } from '../../../../api/todolists-api'
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import { updateTask } from '../../tasks-reducer';
+import { useDispatch } from 'react-redux';
 
 type TaskPropsType = {
     task: TaskType
     todolistId: string
-    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+    /*changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void*/
     removeTask: (taskId: string, todolistId: string) => void
 }
 export const Task = React.memo((props: TaskPropsType) => {
+    const dispatch = useDispatch()
+    
     const onClickHandler = useCallback(() => props.removeTask(props.task.id, props.todolistId), [props.task.id, props.todolistId]);
-
+    
+    // const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    //     let newIsDoneValue = e.currentTarget.checked
+    //     props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
+    // }, [props.task.id, props.todolistId]);
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        let newIsDoneValue = e.currentTarget.checked
-        props.changeTaskStatus(props.task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, props.todolistId)
-    }, [props.task.id, props.todolistId]);
+        dispatch(updateTask({
+            taskId: props.task.id,
+            model: {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New},
+            todolistId: props.todolistId
+        }))
+    }, [props.task.id, props.todolistId])
 
+    // const onTitleChangeHandler = useCallback((newValue: string) => {
+    //     props.changeTaskTitle(props.task.id, newValue, props.todolistId)
+    // }, [props.task.id, props.todolistId]);
     const onTitleChangeHandler = useCallback((newValue: string) => {
-        props.changeTaskTitle(props.task.id, newValue, props.todolistId)
-    }, [props.task.id, props.todolistId]);
+        dispatch(updateTask({
+            taskId: props.task.id,
+            model: {title: newValue},
+            todolistId: props.todolistId
+        }))
+    }, [props.task.id, props.todolistId])
 
     return <div key={props.task.id} className={props.task.status === TaskStatuses.Completed ? 'is-done' : ''}>
         <Checkbox

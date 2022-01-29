@@ -1,7 +1,7 @@
-import {Dispatch} from "redux";
 import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "../features/Login/auth-reducer";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 
 const initialState: InitialStateType = {
     status: 'idle' as RequestStatusType,
@@ -9,17 +9,30 @@ const initialState: InitialStateType = {
     isInitialized: false
 }
 
+export const initializeAppTC = createAsyncThunk('app/initializeApp', async (param, thunkAPI) => {
+    try {
+        const res = await authAPI.me()
+        if (res.data.resultCode === 0) {
+            thunkAPI.dispatch(setIsLoggedInAC({isLoggedIn: true}));
+            return {isLoggedIn: true}
+        }
+
+    } finally {
+        thunkAPI.dispatch(setAppIsInitializedAC({isInitialized: true}))
+    }
+})
+
 const slice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setAppErrorAC(state, action: PayloadAction<{error: string | null}>) {
+        setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
-        setAppStatusAC(state, action: PayloadAction<{status: RequestStatusType}>) {
+        setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         },
-        setAppIsInitializedAC(state, action: PayloadAction<{isInitialized: boolean}>) {
+        setAppIsInitializedAC(state, action: PayloadAction<{ isInitialized: boolean }>) {
             state.isInitialized = action.payload.isInitialized
         }
     },
@@ -28,27 +41,10 @@ const slice = createSlice({
 export const appReducer = slice.reducer
 export const {setAppErrorAC, setAppStatusAC, setAppIsInitializedAC} = slice.actions
 
-// thunk
-export const initializeAppTC = () => (dispatch: Dispatch) => {
-    authAPI.me()
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC({value: true}));
-
-            } /*else {
-        }*/
-        })
-        .finally(() => {
-            dispatch(setAppIsInitializedAC({isInitialized: true}))
-        })
-}
-
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type InitialStateType = {
-    // происходит ли сейчас взаимодействие с сервером
     status: RequestStatusType
-    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
     error: string | null
     isInitialized: boolean
 }
@@ -79,9 +75,7 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 export type InitialStateType = {
-    // происходит ли сейчас взаимодействие с сервером
     status: RequestStatusType
-    // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
     error: string | null
     isInitialized: boolean
 }
