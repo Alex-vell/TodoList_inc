@@ -11,8 +11,8 @@ import {CircularProgress, IconButton, Toolbar, Typography} from "@mui/material";
 import {logoutTC} from "../features/Login/auth-reducer";
 import {useEffect} from "react";
 import {TodolistList} from "../features/TodolistList/TodolistList";
-import { AppBar } from '@material-ui/core';
-import { Menu } from '@material-ui/icons';
+import {AppBar} from '@material-ui/core';
+import {Menu} from '@material-ui/icons';
 
 
 type PropsType = {
@@ -73,44 +73,3 @@ function App({demo = false}: PropsType) {
 }
 
 export default App
-
-
-/*
-import React from 'react'
-import './App.css';
-import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
-import {Menu} from "@material-ui/icons";
-import {TodolistList} from "../features/TodolistList/TodolistList";
-import {useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
-import {RequestStatusType} from "./app-reducer";
-import ErrorSnackbar from "../components/ErrorSnackbar/ErrorSnackbar";
-
-
-function App() {
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
-
-    return (
-        <div className="App">
-            <ErrorSnackbar/>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-            { status === 'loading' && <LinearProgress/>}
-            <Container fixed>
-                <TodolistList/>
-            </Container>
-        </div>
-    );
-}
-
-export default App;
-*/

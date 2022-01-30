@@ -1,12 +1,5 @@
-import {
-    addTaskTC,
-    getTasksTC,
-    removeTaskTC,
-    tasksReducer,
-    TasksStateType,
-    updateTask
-} from './tasks-reducer';
-import {addTodolistAC, removeTodolistAC} from './todolists-reducer';
+import {addTaskTC, getTasksTC, removeTaskTC, tasksReducer, TasksStateType, updateTask} from './tasks-reducer';
+import {addTodolistTC, removeTodolistTC} from './todolists-reducer';
 import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 
 let startState: TasksStateType = {};
@@ -45,7 +38,7 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
     let param = {taskId: "2", todolistId: "todolistId2"};
-    const action = removeTaskTC.fulfilled(param , 'requestId', param);
+    const action = removeTaskTC.fulfilled(param, 'requestId', param);
 
     const endState = tasksReducer(startState, action)
 
@@ -68,7 +61,7 @@ test('correct task should be added to correct array', () => {
         addedDate: ''
     }
 
-    const action = addTaskTC.fulfilled({task}, 'requestId',  {title: task.title, todolistId: task.todoListId});
+    const action = addTaskTC.fulfilled({task}, 'requestId', {title: task.title, todolistId: task.todoListId});
 
     const endState = tasksReducer(startState, action)
 
@@ -78,8 +71,9 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"][0].title).toBe('juice');
     expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
-/*test('status of specified task should be changed', () => {
-    const action = changeTaskStatusAC({taskId: "2", status: 0, todolistId: "todolistId2"});
+test('status of specified task should be changed', () => {
+    let updateModel = {taskId: "2", model: {status: TaskStatuses.New}, todolistId: "todolistId2"}
+    const action = updateTask.fulfilled(updateModel, 'requestId', updateModel);
 
     const endState = tasksReducer(startState, action)
 
@@ -87,14 +81,15 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"][1].status).toBe(0);
 });
 test('title of specified task should be changed', () => {
-    const action = updateTask.fulfilled({taskId: "2", title: "yogurt", todolistId: "todolistId2"}, '', {taskId: "2", title: "yogurt", todolistId: "todolistId2"});
+    let updateModel = {taskId: "2", model: {title: "yogurt"}, todolistId: "todolistId2"}
+    const action = updateTask.fulfilled(updateModel, 'requestId', updateModel);
 
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId1"][1].title).toBe("JS");
     expect(endState["todolistId2"][1].title).toBe("yogurt");
     expect(endState["todolistId2"][0].title).toBe("bread");
-});*/
+});
 test('new array should be added when new todolist is added', () => {
 
     let newTodolistType = {
@@ -104,7 +99,7 @@ test('new array should be added when new todolist is added', () => {
         order: 1
     }
 
-    const action = addTodolistAC({todolist: newTodolistType});
+    const action = addTodolistTC.fulfilled({todolist: newTodolistType}, 'requesId', {title: newTodolistType.title});
 
     const endState = tasksReducer(startState, action)
 
@@ -119,7 +114,7 @@ test('new array should be added when new todolist is added', () => {
     expect(endState[newKey]).toEqual([]);
 });
 test('propertry with todolistId should be deleted', () => {
-    const action = removeTodolistAC({id: "todolistId2"});
+    const action = removeTodolistTC.fulfilled({id: "todolistId2"}, 'requestId', "todolistId2");
 
     const endState = tasksReducer(startState, action)
 
@@ -130,7 +125,10 @@ test('propertry with todolistId should be deleted', () => {
 });
 
 test('task should be added for todolist', () => {
-    const action = getTasksTC.fulfilled({tasks: startState['todolistId1'], todolistId: 'todolistId1'}, 'requestId', 'todolistId1')
+    const action = getTasksTC.fulfilled({
+        tasks: startState['todolistId1'],
+        todolistId: 'todolistId1'
+    }, 'requestId', 'todolistId1')
 
     const endState = tasksReducer({
         'todolistId2': [],
