@@ -13,6 +13,7 @@ import {useEffect} from "react";
 import {TodolistList} from "../features/TodolistList/TodolistList";
 import {AppBar} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
+import './App.css';
 
 
 type PropsType = {
@@ -48,17 +49,23 @@ function App({demo = false}: PropsType) {
         <div className="App">
             <ErrorSnackbar/>
             <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <Menu/>
-                    </IconButton>
-                    <Typography variant="h6">
-                        News
-                    </Typography>
-                    {isLoggedIn && <Button onClick={logoutHandler} color="inherit">Login</Button>}
+                <Toolbar style={{display: "flex", justifyContent: "space-between"}}>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <IconButton edge="start" color="inherit" aria-label="menu">
+                            <Menu/>
+                        </IconButton>
+                        <Typography variant="h6">
+                            TodoList
+                        </Typography>
+                    </div>
+                    {isLoggedIn && <Button onClick={logoutHandler} color="inherit">Logout</Button>}
                 </Toolbar>
-                {status === 'loading' && <LinearProgress/>}
+
             </AppBar>
+            <div style={{height: "4px"}}>
+                {status === 'loading' && <LinearProgress/>}
+            </div>
+
             <Container fixed>
                 <Routes>
                     <Route path='/' element={<TodolistList demo={demo}/>}/>

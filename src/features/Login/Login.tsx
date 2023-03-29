@@ -56,8 +56,14 @@ export const Login = () => {
         return <Navigate to={'/'}/>
     }
 
-    return <Grid container justifyContent={'center'}>
-        <Grid item justifyContent={'center'}>
+    return <Grid
+        container
+        justifyContent={'center'}>
+        <Grid item justifyContent={'center'} style={{
+            background: "rgba(215,215,215,0.78)",
+            padding: "20px",
+            borderRadius: "4px",
+        }}>
             <FormControl>
                 <FormLabel>
                     <p>To log in get registered
